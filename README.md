@@ -1,10 +1,36 @@
-### node-eyed3
+# node-eyed3
 
 A wrapper for reading and updating ID3 data of (e.g.) MP3 files using eyeD3.
+
+[![NPM](https://nodei.co/npm/eyed3.png)](https://nodei.co/npm/eyed3/)
 
 ## Notice
 
 Make sure you have `eyeD3` installed.
+
+## API
+
+```js
+  var EyeD3 = require('eyed3')
+    , eyed3 = new EyeD3({
+      eyed3_executable: 'eyeD3'
+    })
+
+  eyed3.readMeta('file.mp3', function (err, meta) {
+    // Meta contains a hash with the following properties:
+    // artist, title, album, comment
+  })
+
+  var meta = {
+    artist:  "MyArtist",
+    title:   "MyTitle",
+    album:   "MyAlbum",
+    comment: "MyComment"
+  }
+  eyed3.updateMeta('file.mp3', meta, function (err) {
+    // file.mp3 now has updated meta data
+  })
+```
 
 ## Running tests
 
