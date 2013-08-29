@@ -1,0 +1,31 @@
+{
+  "name": "eyed3",
+  "version": "0.0.1",
+  "description": "A wrapper for ID3 manipulation using eyeD3",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/saschagehlich/node-eyed3"
+  },
+  "keywords": [
+    "id3",
+    "mp3",
+    "artist",
+    "title",
+    "manipulation",
+    "eyed3",
+    "id3v2"
+  ],
+  "author": "Sascha Gehlich <sascha@gehlich.us>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/saschagehlich/node-eyed3/issues"
+  },
+  "devDependencies": {
+    "should": "~1.2.2",
+    "mocha": "~1.12.0"
+  }
+}
