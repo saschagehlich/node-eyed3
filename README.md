@@ -20,16 +20,21 @@ Make sure you have `eyeD3` installed.
     // Meta contains a hash with the following properties:
     // artist, title, album, comment
   })
+  
+  eyed3.readLyrics('file.mp3', function (err, lyrics) {
+    // lyrics will be returned as a string
+  })
 
   var meta = {
     artist:  "MyArtist",
     title:   "MyTitle",
     album:   "MyAlbum",
-    comment: "MyComment"
+    comment: "MyComment",
+    lyrics:  "MyLyrics"
   }
   eyed3.updateMeta('file.mp3', meta, function (err) {
     // file.mp3 now has updated meta data
-  })
+  })  
 ```
 
 ## Running tests
