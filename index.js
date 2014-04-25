@@ -17,7 +17,7 @@ EyeD3.prototype.readMeta = function(file, callback) {
   var args = ['--no-color', '--rfc822', file]
     , p = spawn(this.options.eyed3_path, args)
     , allData = ''
-
+  
   p.stdout.on('data', function (data) {
     allData += data
   })
@@ -37,6 +37,35 @@ EyeD3.prototype.readMeta = function(file, callback) {
       }
     }
 
+    callback(null, response)
+  })
+}
+
+/**
+* Reads the lyrics of the given file
+*
+* @param  {String}   file
+* @param  {Function} callback
+*/
+EyeD3.prototype.readLyrics = function(file, callback) {
+  var args = ['--no-color', '--verbose', file]
+    , p = spawn(this.options.eyed3_path, args)
+    , allData = ''
+  
+  p.stdout.on('data', function (data) {
+    allData += data
+  })
+  
+  p.on('exit', function (exitCode) {
+    if(exitCode !== 0)
+      return callback(new Error('eyeD3 exit code: ' + exitCode))
+    
+    var response = '';
+  
+    if(match = allData.match(/<.*lyric\/text.*:\s(.*)\s\[Lang:[^\]]*\]\s*\[Desc:[^\]]*\]>/im)) {
+      response = match[1]
+    }
+  
     callback(null, response)
   })
 }
@@ -73,7 +102,8 @@ EyeD3.prototype.buildArgs = function(meta) {
   if(meta.title)   args.push('-t', meta.title)
   if(meta.album)   args.push('-A', meta.album)
   if(meta.comment) args.push('-c', '::' + meta.comment)
-
+  if(meta.lyrics)  args.push('-L', '::' + meta.lyrics)
+  
   return args
 }
 
