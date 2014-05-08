@@ -73,6 +73,7 @@ EyeD3.prototype.buildArgs = function(meta) {
   if(meta.title)   args.push('-t', meta.title)
   if(meta.album)   args.push('-A', meta.album)
   if(meta.comment) args.push('-c', '::' + meta.comment)
+  if(meta.lyrics)  args.push('-L', '::' + meta.lyrics)
 
   return args
 }
