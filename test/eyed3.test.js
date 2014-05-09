@@ -8,7 +8,8 @@ var EyeD3 = require('../index.js')
     artist: 'TestArtist',
     title: 'TestTitle',
     album: 'TestAlbum',
-    comment: 'TestComment'
+    comment: 'TestComment',
+    lyrics: 'TestLyrics'
   }
 
 describe('EyeD3', function () {
@@ -19,7 +20,8 @@ describe('EyeD3', function () {
       '-a', 'TestArtist',
       '-t', 'TestTitle',
       '-A', 'TestAlbum',
-      '-c', '::TestComment'
+      '-c', '::TestComment',
+      '-L', '::TestLyrics'
     ]))
     done()
   })
@@ -33,6 +35,18 @@ describe('EyeD3', function () {
       meta.album.should.equal(testMeta.album)
       meta.comment.should.equal(testMeta.comment)
 
+
+      done()
+    })
+  })
+  
+  it('should correctly read the lyrics from an .mp3 file', function (done) {
+    eyed3.readLyrics(testFile, function (err, lyrics) {
+      if (err) throw err
+  
+      lyrics.should.equal(testMeta.lyrics)
+  
+  
       done()
     })
   })
@@ -44,7 +58,8 @@ describe('EyeD3', function () {
       title: testMeta.title + "New",
       artist: testMeta.artist + "New",
       album: testMeta.album + "New",
-      comment: testMeta.comment + "New"
+      comment: testMeta.comment + "New",
+      lyrics: testMeta.lyrics + "New"
     }
 
     eyed3.updateMeta(tmpTestFile, newMeta, function (err) {
@@ -57,8 +72,14 @@ describe('EyeD3', function () {
         meta.title.should.equal(newMeta.title)
         meta.album.should.equal(newMeta.album)
         meta.comment.should.equal(newMeta.comment)
-
-        done()
+        
+        eyed3.readLyrics(tmpTestFile, function (err, lyrics) {
+          if (err) throw err
+        
+          lyrics.should.equal(newMeta.lyrics)
+        
+          done()
+        })
       })
     })
   })
