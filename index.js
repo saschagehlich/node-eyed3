@@ -14,10 +14,10 @@ function EyeD3(options) {
  * @param  {Function} callback
  */
 EyeD3.prototype.readMeta = function(file, callback) {
-  var args = ['--no-color', '--rfc822', file]
+  var args = ['--no-color', file]
     , p = spawn(this.options.eyed3_path, args)
     , allData = ''
-  
+
   p.stdout.on('data', function (data) {
     allData += data
   })
@@ -51,21 +51,21 @@ EyeD3.prototype.readLyrics = function(file, callback) {
   var args = ['--no-color', '--verbose', file]
     , p = spawn(this.options.eyed3_path, args)
     , allData = ''
-  
+
   p.stdout.on('data', function (data) {
     allData += data
   })
-  
+
   p.on('exit', function (exitCode) {
     if(exitCode !== 0)
       return callback(new Error('eyeD3 exit code: ' + exitCode))
-    
+
     var response = '';
-  
+
     if(match = allData.match(/<.*lyric\/text.*:\s(.*)\s\[Lang:[^\]]*\]\s*\[Desc:[^\]]*\]>/im)) {
       response = match[1]
     }
-  
+
     callback(null, response)
   })
 }
@@ -101,9 +101,15 @@ EyeD3.prototype.buildArgs = function(meta) {
   if(meta.artist)  args.push('-a', meta.artist)
   if(meta.title)   args.push('-t', meta.title)
   if(meta.album)   args.push('-A', meta.album)
-  if(meta.comment) args.push('-c', '::' + meta.comment)
-  if(meta.lyrics)  args.push('-L', '::' + meta.lyrics)
-  
+  if(meta.track)   args.push('-n', meta.track)
+  if(meta.trackTotal)   args.push('-N', meta.trackTotal)
+  if(meta.disc)    args.push('-d', meta.disc)
+  if(meta.year)    args.push('-Y', meta.year, '--release-date', meta.year, '--recording-date', meta.year, '--encoding-date', meta.year)
+  if(meta.genre)    args.push('--genre', meta.genre)
+  if(meta.image)   args.push('--add-image', meta.image+':FRONT_COVER')
+  if(meta.comment) args.push('-c', meta.comment)
+  if(meta.lyrics)  args.push('--add-lyrics', meta.lyrics)
+
   return args
 }
 
