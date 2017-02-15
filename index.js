@@ -1,4 +1,5 @@
 var spawn = require("child_process").spawn
+var path = require("path")
 
 function EyeD3(options) {
   if(!options) options = {}
@@ -79,7 +80,7 @@ EyeD3.prototype.readLyrics = function(file, callback) {
  */
 EyeD3.prototype.updateMeta = function(file, meta, callback) {
   var args = this.buildArgs(meta).concat([file])
-    , p = spawn(this.options.eyed3_path, args)
+    , p = spawn(this.options.eyed3_path, args, { cwd: path.dirname(this.options.eyed3_path) })
 
   p.on('exit', function (exitCode) {
     if(exitCode !== 0)
