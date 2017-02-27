@@ -80,7 +80,12 @@ EyeD3.prototype.readLyrics = function(file, callback) {
  */
 EyeD3.prototype.updateMeta = function(file, meta, callback) {
   var args = this.buildArgs(meta).concat([file])
-    , p = spawn(this.options.eyed3_path, args, { cwd: path.dirname(this.options.eyed3_path) })
+    , p = spawn(this.options.eyed3_path, args, { cwd: path.dirname(this.options.eyed3_path) } )
+
+	// console.log(this.options.eyed3_path, args);
+
+	p.stderr.on('data', (d) => console.log(`eye: ${d}`));
+	// p.stdout.on('data', (d) => console.log(`eye: ${d}`));
 
   p.on('exit', function (exitCode) {
     if(exitCode !== 0)
@@ -110,6 +115,8 @@ EyeD3.prototype.buildArgs = function(meta) {
   if(meta.image)   args.push('--add-image', meta.image+':FRONT_COVER')
   if(meta.comment) args.push('-c', meta.comment)
   if(meta.lyrics)  args.push('--add-lyrics', meta.lyrics)
+
+	args.push('--encoding', 'utf8')
 
   return args
 }
