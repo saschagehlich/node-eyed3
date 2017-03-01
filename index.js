@@ -116,7 +116,8 @@ EyeD3.prototype.buildArgs = function(meta) {
   if(meta.comment) args.push('-c', meta.comment)
   if(meta.lyrics)  args.push('--add-lyrics', meta.lyrics)
 
-	args.push('--encoding', 'utf8')
+  args.push('--encoding', 'utf8')
+  args.push('--to-v2.3') // Prefer v2.3 for Windows Explorer and Groove compatibility
 
   return args
 }
