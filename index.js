@@ -84,12 +84,17 @@ EyeD3.prototype.updateMeta = function(file, meta, callback) {
 
 	// console.log(this.options.eyed3_path, args);
 
-	p.stderr.on('data', (d) => console.log(`eye: ${d}`));
+  var errors = '';
+
+	p.stderr.on('data', (d) => {
+    errors += `${d}`;
+    console.log(`eyeD3 error: ${d}`);
+  });
 	// p.stdout.on('data', (d) => console.log(`eye: ${d}`));
 
   p.on('exit', function (exitCode) {
     if(exitCode !== 0)
-      return callback(new Error('eyeD3 exit code:' + exitCode))
+      return callback(new Error('eyeD3 exit code:' + exitCode + '\n' + errors))
 
     if(callback) callback()
   })
