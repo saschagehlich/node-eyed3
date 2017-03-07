@@ -20,7 +20,7 @@ Make sure you have `eyeD3` installed.
     // Meta contains a hash with the following properties:
     // artist, title, album, comment
   })
-  
+
   eyed3.readLyrics('file.mp3', function (err, lyrics) {
     // lyrics will be returned as a string
   })
@@ -30,7 +30,13 @@ Make sure you have `eyeD3` installed.
     title:   "MyTitle",
     album:   "MyAlbum",
     comment: "MyComment",
-    lyrics:  "MyLyrics"
+    lyrics:  "MyLyrics",
+    image:   "/path/to/my/beautiful/cover.jpg",
+    year:    "2016",
+    track:   "5",
+    trackTotal: "13",
+    disc:    "1",
+    genre:   "Pop"
   }
   eyed3.updateMeta('file.mp3', meta, function (err) {
     // file.mp3 now has updated meta data
